@@ -109,7 +109,7 @@ def search_meal(request):
             name = str(name[0])
             name = name.replace(" ", "%20")
             quantity = quantity[0]
-            url = 'https://api.edamam.com/api/nutrition-data?app_id=6d5320bb&app_key=9f735ccf193a2c96e17919b3afd62135&ingr='+str(quantity)+'%20'+name
+            url = 'https://api.edamam.com/api/nutrition-data?app_id=&ingr='+str(quantity)+'%20'+name
             response = requests.get(url)
             foodkcal = response.json()['calories']
             if foodkcal == 0:
