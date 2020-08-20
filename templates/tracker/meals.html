@@ -1,0 +1,38 @@
+{% extends "tracker/base.html" %}
+
+{% block title %}
+Calorie Tracker
+{% endblock %}
+
+{% block body %}
+<h1>Logged Foods</h1>
+<p> Click on a previous food to add to todays log, or search through the database to see what others have entered.</p>
+<form action="{% url 'meals' %}" method="post">
+    {% csrf_token %}
+    <i class="fa fa-search"></i>
+    <input id='searchBox' name="searchbox" type="text" placeholder="Search..." required>
+    <input type="submit" name="search" class="btn btn-outline-secondary" value="Search Your Recent Foods">
+    <input type="submit" name="search" class="btn btn-outline-secondary" value="Search Food From Other Entered">
+</form>
+
+{% if meals %}
+{% for meal in meals %}
+<form class='addFood' action="{% url 'add_food' %}" method="post">
+    {% csrf_token %}
+    <input name="food_name" type="hidden" value="{{ meal.name }}">
+    <input name="food_kcal" type="hidden" value="{{ meal.kcal }}">
+    <input name="food_quantity" type="hidden" value="{{ meal.quantity }}">
+    <div>
+        <button type="submit" id="addFood" class="btn btn-outline-success btn-lg btn-block" value="{{ meal.name }} : {{ meal.quantity }} :{{ meal.kcal }} Calories">
+            {{ meal.name }} : {{ meal.quantity }} :{{ meal.kcal }} Calories
+            <span id="date">({{ meal.date|date:'D M d' }})</span>
+        </button>
+    </div>
+</form>
+
+{% endfor %}
+{% else %}
+<p>There are no pre-created meals to show you.<a href="{% url 'search_meal' %}">Search for one? </a></p>
+{% endif %}
+
+{% endblock %}

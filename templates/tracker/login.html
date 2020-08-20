@@ -1,0 +1,18 @@
+{% extends "tracker/base.html" %}
+
+{% block body %}
+<h1>Login</h1>
+{% if message %}
+    <div>
+        {{ message }}
+    </div>
+{% endif %}
+<form action="{% url 'login' %}" method="post">
+    {% csrf_token %}
+    <input name="username" type="text"/>
+    <input name="password" type="password"/>
+    <input type="submit"  class="btn btn-outline-success" value="Login"/>
+</form>
+
+<li><a href="{% url 'register' %}">Register?</a></li>
+{% endblock %}

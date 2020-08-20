@@ -1,0 +1,25 @@
+{% extends "tracker/base.html" %} 
+
+{% block title %}
+    Calorie Tracker
+{% endblock %}
+
+{% block body %}
+    <h1>Hello, {{ user.username }}</h1>
+    <p class='center'>Welcome to your calorie tracking application!</p>
+ <ul class='infoList'>
+    <li id='calLeft'>Calories left: <b>{{ kcal_left }}</b> </li>
+    <div id='progressbar'>
+    <p id='zero'>0 Calories</p>
+    <p id='goal'>{{ kcal_goal }} Calories</p>
+    <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: {{ progress }}%;" aria-valuenow=" {{ progress }}" aria-valuemin="0" aria-valuemax="100"> {{ progress }}%</div>
+    </div>
+    </div>
+    <li>Your calorie goal is: <b>{{ kcal_goal }}</b></li>
+    <li>Date: <b>{{ date }} </b></li>
+    <li>Total Calories Eaten Today: <b>{{ kcal_total }} </b></li>
+    
+</ul>
+
+{% endblock %}
