@@ -11,7 +11,7 @@ urlpatterns = [
     path("goal_change/", views.goal_change, name="goal_change"),
     path("add_food/", views.add_food, name="add_food"),
     path("goal_change/", views.cal_calc, name="cal_calc"),
-    path("search_meal/", views.search_meal, name="search_meal")
-
+    path("search_meal/", views.search_meal, name="search_meal"),
+    path('delete/<int:food_id>', views.delete, name='delete'),
 
 ]

@@ -1,12 +1,12 @@
-{% extends "tracker/base.html" %}
+{% extends "tracker/../tracker/base.html" %}
 
 {% block body %}
-<h1 class='error'>Error</h1>
-<p>There was an error with your request</p>
-{% if msg %}
-    <div>
-        {{ msg }}
-    </div>
-{% endif %}
+    <h1 class='error'>Error</h1>
+    <p>There was an error with your request</p>
+    {% if msg %}
+        <div>
+            {{ msg }}
+        </div>
+    {% endif %}
 
 {% endblock %}

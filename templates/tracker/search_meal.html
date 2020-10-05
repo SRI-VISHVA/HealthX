@@ -1,7 +1,7 @@
-{% extends "tracker/base.html" %}
+{% extends "tracker/../tracker/base.html" %}
 
 {% block body %}
-<h1 >Create Food</h1>
+<h1 >Search For Food</h1>
 {% if message %}
     <div>
         {{ message }}
@@ -11,7 +11,7 @@
     {% csrf_token %}
     <input name="name" placeholder="What is it?" type="text" required/>
     <input name="quantity" placeholder="How Much?" type="number" required/>
-    <input type="submit"  class="btn btn-outline-success" value="submit"/>
+    <input type="submit"  class="btn btn-outline-success" value="Search"/>
 </form>
 
 {% endblock %}

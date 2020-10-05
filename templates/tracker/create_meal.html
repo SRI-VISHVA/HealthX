@@ -1,18 +1,18 @@
-{% extends "tracker/base.html" %}
+{% extends "tracker/../tracker/base.html" %}
 
 {% block body %}
-<h1 >Create Food</h1>
-{% if message %}
-    <div>
-        {{ message }}
-    </div>
-{% endif %}
-<form action="{% url 'create_meal' %}" method="post">
-    {% csrf_token %}
-    <input name="name" placeholder="What is it?" type="text" required/>
-    <input name="quantity" placeholder="How Much?" type="number" required/>
-    <input name="kcal" placeholder="How many calories?" min="0" type="number" required />
-    <input type="submit"  class="btn btn-outline-success" value="submit"/>
-</form>
+    <h1>Create Food</h1>
+    {% if message %}
+        <div>
+            {{ message }}
+        </div>
+    {% endif %}
+    <form action="{% url 'create_meal' %}" method="post">
+        {% csrf_token %}
+        <input name="name" placeholder="What is it?" type="text" required/>
+        <input name="quantity" placeholder="How Much?" type="number" required/>
+        <input name="kcal" placeholder="How many calories?" min="0" type="number" required/>
+        <input type="submit" class="btn btn-outline-success" value="submit"/>
+    </form>
 
 {% endblock %}

@@ -1,49 +1,55 @@
-{% extends "tracker/base.html" %}
+{% extends "tracker/../tracker/base.html" %}
 
 {% block body %}
-<h1>Set Your Goal</h1>
-<p>If you don't want to set a calorie target, your goal will auto-set to <b>2000</b> calories per day!</p>
-<p class="information"> Enter your daily or weekly target below. We will divide weekly calories into days for you.</p>
-<form action="{% url 'goal_change' %}" method="post">
-    {% csrf_token %}
-    <input type="radio" name="timeframe" value="0"> Daily
-    <input type="radio" name="timeframe" value="1"> Weekly
-    <input name="goal" placeholder="Target Calories" type="number" min="0" required/>
-    <input type="submit"  class="btn btn-outline-success" value="Set"/>
-</form>
-<p class="information"> If you're not sure how many calories you need, fill out the information below to calculate. 
-    This will give you your calories needed daily to sustain your current weight. 
-    An estimated 500 calories is equal 1lbs of fat. So if you want to lose 1lbs per week, 
-    subtract 500 from your weekly goal. Likewise, if you want to gain 1lbs per week, add 500 to your weekly goal.
-</p>
-<form action="{% url 'cal_calc' %}" method="post">
-    <fieldset class="calculator">
-        <legend><b>Calculate Your Calorie Needs</b></legend>
+    <h1>Set Your Goal</h1>
+    <p>If you don't want to set a calorie target, your goal will auto-set to <b>2000</b> calories per day!</p>
+    <p class="information"> Enter your daily or weekly target below. We will divide weekly calories into days for
+        you.</p>
+    <form action="{% url 'goal_change' %}" method="post">
+        {% csrf_token %}
+        <input type="radio" name="timeframe" value="0"> Daily
+        <input type="radio" name="timeframe" value="1"> Weekly
+        <input name="goal" placeholder="Target Calories" type="number" min="0" required/>
+        <input type="submit" class="btn btn-outline-success" value="Set"/>
+    </form>
+    <p class="information"> If you're not sure how many calories you need, fill out the information below to calculate.
+        This will give you your calories needed daily to sustain your current weight.
+        An estimated 500 calories is equal 1lbs of fat. So if you want to lose 1lbs per week,
+        subtract 500 from your weekly goal. Likewise, if you want to gain 1lbs per week, add 500 to your weekly goal.
+    </p>
+    <form action="{% url 'cal_calc' %}" method="post">
+        <fieldset class="calculator">
+            <legend><b>Calculate Your Calorie Needs</b></legend>
             {% csrf_token %}
             <p>Input Gender:</p>
             <input type="radio" name="gender" value="0"> Male <br>
             <input type="radio" name="gender" value="1"> Female <br>
             Age:<br>
-            <input class= "inputField" name="age" placeholder="Age" type="number" min="0" max="120" required/><small>years</small><br>
+            <input class="inputField" name="age" placeholder="Age" type="number" min="0" max="120" required/><small>years</small><br>
             Weight in lbs:<br>
-            <input class= "inputField" name="lbs" placeholder="lbs" type="number" min="0" required/><small>lbs</small><br>
+            <input class="inputField" name="lbs" placeholder="lbs" type="number" min="0"
+                   required/><small>lbs</small><br>
             Height in Inches:<br>
-            <input class= "inputField" name="height" placeholder="Height" type="number" min="0" required/><small>inches</small> <br>
+            <input class="inputField" name="height" placeholder="Height" type="number" min="0"
+                   required/><small>inches</small> <br>
             <p>How would you describe your activity?</p>
             <input type="radio" name="activity" value="1.2"> Sedentary (little or no exercise) <br>
             <input type="radio" name="activity" value="1.375"> Lightly active (light exercise/sports 1-3 days/week) <br>
-            <input type="radio" name="activity" value="1.55"> Moderately active (moderate exercise/sports 3-5 days/week) <br>
+            <input type="radio" name="activity" value="1.55"> Moderately active (moderate exercise/sports 3-5 days/week)
+            <br>
             <input type="radio" name="activity" value="1.725"> Very active (hard exercise/sports 6-7 days a week) <br>
-            <input type="radio" name="activity" value="1.9"> Extra active (very hard exercise/sports & physical job or professional athlete) <br>
+            <input type="radio" name="activity" value="1.9"> Extra active (very hard exercise/sports & physical job or
+            professional athlete) <br>
             <button id="calcResults" type="submit" class="btn btn-primary"> Calculate Results</button>
-        {% if daily %}
-            <p> Your daily calorie goal is <b>{{ daily }}</b> calories</p>
-            <p> Your weekly calorie goal is <b>{{ weekly }}</b> calories</p>
-        {% endif %}
-    </fieldset>
-</form>
+            {% if daily %}
+                <p> Your daily calorie goal is <b>{{ daily }}</b> calories</p>
+                <p> Your weekly calorie goal is <b>{{ weekly }}</b> calories</p>
+            {% endif %}
+        </fieldset>
+    </form>
 
-<p>If you would more information regarding calories \
-    and different exsisting calculations, we recommend this more <a href="https://www.sailrabbit.com/bmr/">advanced calculator</a></p>
+    <p>If you would more information regarding calories \
+        and different exsisting calculations, we recommend this more <a href="https://www.sailrabbit.com/bmr/">advanced
+            calculator</a></p>
 
 {% endblock %}

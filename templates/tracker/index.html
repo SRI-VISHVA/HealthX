@@ -1,25 +1,49 @@
-{% extends "tracker/base.html" %} 
+{% extends "tracker/../tracker/base.html" %}
 
 {% block title %}
     Calorie Tracker
 {% endblock %}
 
 {% block body %}
-    <h1>Hello, {{ user.username }}</h1>
-    <p class='center'>Welcome to your calorie tracking application!</p>
- <ul class='infoList'>
-    <li id='calLeft'>Calories left: <b>{{ kcal_left }}</b> </li>
-    <div id='progressbar'>
-    <p id='zero'>0 Calories</p>
-    <p id='goal'>{{ kcal_goal }} Calories</p>
-    <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: {{ progress }}%;" aria-valuenow=" {{ progress }}" aria-valuemin="0" aria-valuemax="100"> {{ progress }}%</div>
-    </div>
-    </div>
-    <li>Your calorie goal is: <b>{{ kcal_goal }}</b></li>
-    <li>Date: <b>{{ date }} </b></li>
-    <li>Total Calories Eaten Today: <b>{{ kcal_total }} </b></li>
-    
-</ul>
+    <h1><span style="color: #708090">Hello, </span><span style="color: #00ff00;">{{ user.username }}</span></h1>
+    <p class='center' style="color: #708090">Welcome to your calorie tracking application!</p>
+    <ul class='infoList'>
+        <li id='calLeft' style="color: #708090">Calories left: <b style="color: #00ff00;">{{ kcal_left }}</b></li>
+        <div id='progressbar'>
+            <p id='zero' style="color: #708090">0 Calories</p>
+            <p id='goal' style="color: #708090">{{ kcal_goal }} Calories</p>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{ progress }}%; color: lime"
+                     aria-valuenow=" {{ progress }}" aria-valuemin="0" aria-valuemax="100"> {{ progress }}%
+                </div>
+            </div>
+        </div>
+        <li style="color: #708090">Your calorie goal is: <b style="color: #00ff00;">{{ kcal_goal }}</b></li>
+        <li style="color: #708090"> Date: <b style="color: #00ff00;">{{ date }} </b></li>
+        <li style="color: #708090">Total Calories Eaten Today: <b style="color: #00ff00;">{{ kcal_total }} </b></li>
+        <li style="color: #708090">
+            <table width="1200px" border="4px black solid">
+                <tr>
+                    <th>S.No</th>
+                    <th>Food</th>
+                    <th>Quantity</th>
+                    <th>Calories</th>
+                    <th>Delete</th>
+                </tr>
+                {% for item in food_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.kcal }}</td>
+                        <td>
+                            <a href="{% url 'delete' item.id %}"> delete <i class="fa fa-trash"></i> </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+            </table>
+        </li>
+    </ul>
 
 {% endblock %}

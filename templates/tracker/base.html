@@ -1,14 +1,14 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <link rel="icon" href="../../Tracker/static/image/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
             integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
             crossorigin="anonymous"></script>
@@ -18,30 +18,34 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+
     <title> {% block title %}{% endblock %}</title>
 
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
-
-<body class='body'>
-{% if user %}
-    <p id='loggedInAs'> Logged in as: {{ user.username }}</p>
-{% endif %}
-<div class='bodyText'>
-    {% block body %}
-    {% endblock %}
-</div>
+<body class='body' style="
+    background-image: url('https://i.ibb.co/jMs1qV5/background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;">
 <div class="navbar" id="NavbarID">
     <a href="{% url 'index' %}">Home</a>
     <a href="{% url 'meals' %}">Recent Foods</a>
     <a href="{% url 'search_meal' %}">Search Food</a>
     <a href="{% url 'create_meal' %}">Create New</a>
     <a href="{% url 'goal_change' %}">Change Target</a>
-    {% if user.username != None %}
+    {% if user %}
         <a href="{% url 'logout' %}">Logout</a>
     {% endif %}
     <a href="javascript:void(0);" class="icon" onclick="navBarRespond()">&#9776;</a>
+    {% if user %}
+        <a href="{% url 'index' %}">Logged in as: {{ user.username }}</a>
+    {% endif %}
 </div>
-
+<div class='bodyText'>
+    {% block body %}
+    {% endblock %}
+</div>
 <script>
     function navBarRespond() {
         var x = document.getElementById("NavbarID");
@@ -53,5 +57,4 @@
     }
 </script>
 </body>
-
 </html>

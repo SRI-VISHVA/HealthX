@@ -7,18 +7,19 @@ from django.contrib.auth.models import User
 from django.db.models import Sum
 import requests
 from django.utils import timezone
+from django.conf import settings
 
 
 def base(request):
     context = {
         "user": request.user,
     }
-    return render(request, "tracker/base.html", context)
+    return render(request, "tracker/../templates/base.html", context)
 
 
 def index(request):
     profile = Profile.objects.get(user=request.user)
-    date_now = timezone.now().date()
+    date_now = timezone.now().today()
     kcal = Meal.objects.filter(date=date_now, userfk=request.user).aggregate(Sum('kcal'))['kcal__sum'] or 0.00
     goal_cals = profile.goal_cals
     if kcal is not None:
@@ -30,13 +31,15 @@ def index(request):
     if not request.user.is_authenticated:
         return render(request, "tracker/login.html", {"message": None})
     progress = (int(kcal) / int(goal_cals)) * 100
+    user = request.user
     context = {
         "user": request.user,
-        "date": timezone.now().date(),
+        "date": date_now,
         "kcal_total": int(kcal_total),
         "kcal_left": int(kcal_left),
         "kcal_goal": int(goal_cals),
-        "progress": int(progress)
+        "progress": int(progress),
+        "food_list": Meal.objects.filter(userfk=user, date__exact=timezone.datetime.now())
     }
     return render(request, "tracker/index.html", context)
 
@@ -76,12 +79,13 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return render(request, "tracker/login.html", {"message": "Logged out."})
+    return render(request, "tracker/Logouttest.html",
+                  {"message": "Log out successful, Thank You for using our service"})
 
 
 def meals(request):
     user = request.user
-    meals = Meal.objects.filter(userfk=user).order_by('date')
+    meals = Meal.objects.filter(userfk=user).order_by('-date')
     if request.method == "POST":
         search = request.POST.get("searchbox", False)
         search_but = request.POST.get("search")
@@ -101,6 +105,17 @@ def meals(request):
     return render(request, "tracker/meals.html", context)
 
 
+def delete(request, food_id):
+    try:
+        user = request.user
+        meal = Meal.objects.filter(userfk=user, date__exact=timezone.datetime.now(),id=food_id)
+    except Meal.DoesNotExsist:
+        return redirect('index')
+    else:
+        meal.delete()
+        return redirect('index')
+
+
 def search_meal(request):
     if request.method == 'POST':
         try:
@@ -109,7 +124,8 @@ def search_meal(request):
             name = str(name[0])
             name = name.replace(" ", "%20")
             quantity = quantity[0]
-            url = 'https://api.edamam.com/api/nutrition-data?app_id=&ingr='+str(quantity)+'%20'+name
+            url = 'https://api.edamam.com/api/nutrition-data?app_id=' + settings.EDMAN_APP_ID + '&app_key=' + settings.EDMAN_API_KEY + '&ingr=' + str(
+                quantity) + '%20' + name
             response = requests.get(url)
             foodkcal = response.json()['calories']
             if foodkcal == 0:
@@ -119,7 +135,7 @@ def search_meal(request):
                 name=request.POST["name"],
                 kcal=foodkcal,
                 quantity=quantity,
-                date=timezone.now().date()
+                date=timezone.now()
             )
             meal.save()
             return redirect('index')
@@ -137,7 +153,7 @@ def create_meal(request):
                 name=request.POST["name"],
                 kcal=request.POST["kcal"],
                 quantity=request.POST["quantity"],
-                date=timezone.now().date()
+                date=timezone.now()
             )
             meal.save()
             return redirect('index')
@@ -160,7 +176,7 @@ def add_food(request):
             name=food_name,
             kcal=food_kcal,
             quantity=food_quantity,
-            date=timezone.now().date())
+            date=timezone.now())
         meal.save()
         return redirect('index')
     else:
