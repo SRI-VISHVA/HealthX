@@ -1,0 +1,42 @@
+{% extends "tracker/../tracker/base.html" %}
+
+{% block body %}
+    <h1>Create Your Magic</h1>
+    {% if message %}
+        <div>
+            {{ message }}
+        </div>
+    {% endif %}
+    <form action="{% url 'recipe_upload' %}" method="post">
+        {% csrf_token %}
+        <label for="dish_name">Dish Name</label>
+        <input name="dish_name" id="dish_name" placeholder="What is it?" type="text" required/><br>
+        <label for="ingredients">Ingredients</label>
+        <input name="ingredients" id="ingredients" placeholder="What do we need?" type="text" required/><br>
+        <input name="type" id="vegetarian" value="vegetarian" type="radio" required/>
+        <label for="vegetarian">Vegetarian</label><br>
+        <input name="type" id="non-vegetarian" value="non-vegetarian" type="radio" required/>
+        <label for="non-Vegetarian">Non Vegetarian</label><br>
+        <textarea  name="instruction" rows="4" cols="50">
+        How to Cook?
+        </textarea><br>
+        <label for="time_taken">Time Taken</label>
+        <input name="time_taken" id="time_taken" placeholder="How much time" min="2" type="number" required/><br>
+        <label for="kcal">Kilo Calories</label>
+        <input name="kcal" id="kcal" placeholder="How many calories?" min="0" type="number" step="0.1" required/><br>
+        <input name="cuisine" id="south-indian" value="south-indian" type="radio" required/>
+        <label for="south-indian">South Indian</label><br>
+        <input name="cuisine" id="north-indian" value="north-indian" type="radio" required/>
+        <label for="north-indian">North Indian</label><br>
+        <input name="cuisine" id="italian" value="italian" type="radio" required/>
+        <label for="italian">Italian</label><br>
+        <input name="cuisine" id="chinese" value="chinese" type="radio" required/>
+        <label for="chinese">Chinese</label><br>
+        <input name="cuisine" id="japanese" value="japanese" type="radio" required/>
+        <label for="japanese">Japanese</label><br>
+        <input name="cuisine" id="american" value="american" type="radio" required/>
+        <label for="american">American</label><br>
+        <input type="submit" class="btn btn-outline-success" value="submit"/>
+    </form>
+
+{% endblock %}

@@ -25,3 +25,16 @@ class Video(models.Model):
 
     def __str__(self):
         return self.name + ": " + str(self.videofile)
+
+
+class FoodRecipe(models.Model):
+    dish_name = models.CharField(max_length=100)
+    ingredients = models.CharField(max_length=500)
+    type = models.CharField(max_length=15)
+    instruction = models.TextField()
+    time_taken = models.IntegerField()
+    kcal = models.FloatField()
+    cuisine = models.CharField(max_length=20, default='south-indian')
+
+    def __str__(self):
+        return self.dish_name

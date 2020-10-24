@@ -1,5 +1,6 @@
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from .models import Meal, Profile, Video
+from .models import Meal, Profile, Video, FoodRecipe
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
@@ -11,6 +12,7 @@ from django.shortcuts import render, redirect
 from .forms import VideoForm
 
 
+@login_required
 def base(request):
     context = {
         "user": request.user,
@@ -18,6 +20,7 @@ def base(request):
     return render(request, "tracker/base.html", context)
 
 
+@login_required
 def index(request):
     profile = Profile.objects.get(user=request.user)
     date_now = timezone.now().today()
@@ -84,6 +87,7 @@ def logout_view(request):
                   {"message": "Log out successful, Thank You for using our service"})
 
 
+@login_required
 def meals(request):
     user = request.user
     meals = Meal.objects.filter(userfk=user).order_by('-date')
@@ -106,6 +110,7 @@ def meals(request):
     return render(request, "tracker/meals.html", context)
 
 
+@login_required
 def delete(request, food_id):
     try:
         user = request.user
@@ -117,6 +122,7 @@ def delete(request, food_id):
         return redirect('index')
 
 
+@login_required
 def search_meal(request):
     if request.method == 'POST':
         try:
@@ -146,6 +152,7 @@ def search_meal(request):
         return render(request, 'tracker/search_meal.html')
 
 
+@login_required
 def create_meal(request):
     if request.method == 'POST':
         try:
@@ -167,6 +174,7 @@ def create_meal(request):
         return render(request, "tracker/create_meal.html", context)
 
 
+@login_required
 def add_food(request):
     if request.method == 'POST':
         food_name = request.POST["food_name"]
@@ -184,6 +192,7 @@ def add_food(request):
         return render(request, "tracker/meals.html")
 
 
+@login_required
 def cal_calc(request):
     if request.method == 'POST':
         gender = request.POST.get("gender")
@@ -209,6 +218,7 @@ def cal_calc(request):
     return render(request, "tracker/goal_change.html", context)
 
 
+@login_required
 def goal_change(request):
     if request.method == 'POST':
         timeframe = request.POST.get("timeframe", "0")
@@ -231,6 +241,7 @@ def error(request, msg):
     return render(request, 'tracker/error.html', context)
 
 
+@login_required
 def showvideo(request):
     lastvideo = Video.objects.last()
 
@@ -247,6 +258,7 @@ def showvideo(request):
     return render(request, 'tracker/upload_workout.html', context)
 
 
+@login_required
 def display(request):
     videos = Video.objects.all()
     context = {
@@ -254,3 +266,24 @@ def display(request):
     }
 
     return render(request, 'tracker/all_workout.html', context)
+
+
+@login_required
+def recipe_upload(request):
+    if request.method == 'POST':
+        try:
+            food_recipe = FoodRecipe.objects.create(
+                dish_name=request.POST["dish_name"],
+                ingredients=request.POST["ingredients"],
+                type=request.POST["type"],
+                instruction=request.POST["instruction"],
+                time_taken=request.POST["time_taken"],
+                kcal=request.POST["kcal"],
+                cuisine=request.POST["cuisine"],
+            )
+            food_recipe.save()
+            return redirect('index')
+        except:
+            return error(request, 'You left one or more fields blank.')
+    elif request.method == 'GET':
+        return render(request, "tracker/recipe_upload.html")

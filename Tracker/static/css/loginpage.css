@@ -1,0 +1,109 @@
+@import "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body:before {
+    content: '';
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('https://i.ibb.co/jMs1qV5/background.jpg') ;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100%;
+    -webkit-filter: blur(0px);
+    -moz-filter: blur(100px);
+}
+
+.loginbox {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(96, 51, 19, .5);
+    background-size: 100%;
+    top: 55%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+
+    padding: 80px 40px;
+}
+
+.avatar {
+    margin-left: 25%;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    position: absolute;
+    top: calc(-80px / 2);
+    left: calc(50% - 50px);
+    overfiow: hidden;
+}
+
+
+.loginbox h1 {
+    margin: 0;
+    padding: 0 0 20px;
+    text-align: center;
+    text-transaform: uppercase;
+    color: rgb(96, 51, 19);
+}
+
+.loginbox p {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    color: #fff;
+}
+
+.loginbox p i + i{
+    padding-left: 12em;
+}
+
+.loginbox input {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.loginbox input[type="password"],
+.loginbox input[type="text"] {
+    border: none;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    color: #fff;
+    outline: none;
+
+    font-size: 15px;
+
+    height: 40px;
+}
+
+.loginbox input[type="submit"] {
+    border: none;
+    outline: none;
+    height: 30px;
+    background: #006d5b;
+    font-size: 15px;
+    border-radius: 20px;
+    margin-top: 5%;
+    cursor: pointer;
+}
+
+.loginbox input[type="submit"]:hover {
+
+    background: rgb(96, 51, 19);
+    color: #262626;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #006d5b;
+  opacity: 1; /* Firefox */
+}
+
