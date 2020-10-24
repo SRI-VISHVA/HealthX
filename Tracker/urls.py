@@ -16,4 +16,5 @@ urlpatterns = [
     path("upload_workout/", views.showvideo, name="upload_workout"),
     path('all_workout/', views.display, name='all_workout'),
     path('recipe_upload/', views.recipe_upload, name='recipe_upload'),
+    path('display_recipe/', views.recipe_display, name='display_recipe'),
 ]

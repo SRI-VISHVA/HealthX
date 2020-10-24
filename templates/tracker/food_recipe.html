@@ -1,0 +1,60 @@
+{% extends "tracker/../tracker/base.html" %}
+
+{% block body %}
+    <h1>Recipes</h1>
+    {% if message %}
+        <div>
+            {{ message }}
+        </div>
+    {% endif %}
+    <div style="border: 2px solid black">
+        <h4>Filters</h4>
+        <form action="{% url 'display_recipe' %}" method="post">
+            {% csrf_token %}
+            <input name="type" id="vegetarian" value="vegetarian" type="radio" required/>
+            <label for="vegetarian">Vegetarian</label>
+            <input name="type" id="non-vegetarian" value="non-vegetarian" type="radio" required/>
+            <label for="non-Vegetarian">Non Vegetarian</label><br>
+            <input name="cuisine" id="south-indian" value="south-indian" type="radio" required/>
+            <label for="south-indian">South Indian</label>
+            <input name="cuisine" id="north-indian" value="north-indian" type="radio" required/>
+            <label for="north-indian">North Indian</label>
+            <input name="cuisine" id="italian" value="italian" type="radio" required/>
+            <label for="italian">Italian</label>
+            <input name="cuisine" id="chinese" value="chinese" type="radio" required/>
+            <label for="chinese">Chinese</label>
+            <input name="cuisine" id="japanese" value="japanese" type="radio" required/>
+            <label for="japanese">Japanese</label>
+            <input name="cuisine" id="american" value="american" type="radio" required/>
+            <label for="american">American</label><br>
+            <input type="submit" name="submit" class="btn btn-outline-success" value="Apply Filter"/>
+            <input type="submit" name="submit" class="btn btn-outline-success" value="Clear Filter"/>
+        </form>
+    </div>
+    <hr style="color: black">
+    <table width="1200px" border="4px black solid">
+        <tr>
+            <th>S.No</th>
+            <th>Food</th>
+            <th>Ingredients</th>
+            <th>Veg/Non-Veg</th>
+            <th>Cooking Time</th>
+            <th>Instruction</th>
+            <th>Calories</th>
+            <th>Cuisine</th>
+        </tr>
+        {% for item in food_recipe %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.dish_name }}</td>
+                <td>{{ item.ingredients }}</td>
+                <td>{{ item.type }}</td>
+                <td>{{ item.time_taken }}</td>
+                <td>{{ item.instruction }}</td>
+                <td>{{ item.kcal }}</td>
+                <td>{{ item.cuisine }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+

@@ -287,3 +287,22 @@ def recipe_upload(request):
             return error(request, 'You left one or more fields blank.')
     elif request.method == 'GET':
         return render(request, "tracker/recipe_upload.html")
+
+
+@login_required
+def recipe_display(request):
+    if request.method == "POST":
+        if request.POST["submit"] == 'Apply Filter':
+            type = request.POST["type"]
+            cuisine = request.POST["cuisine"]
+            recipe = FoodRecipe.objects.filter(type=type, cuisine=cuisine)
+            context = {
+                'food_recipe': recipe,
+            }
+            return render(request, "tracker/food_recipe.html", context)
+    elif request.method == "GET" or (request.method == "POST" and request.POST["submit"] == 'Clear Filter'):
+        recipe = FoodRecipe.objects.all()
+        context = {
+            'food_recipe': recipe,
+        }
+        return render(request, "tracker/food_recipe.html", context)
