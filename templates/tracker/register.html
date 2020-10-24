@@ -1,0 +1,35 @@
+{% load static %}
+<html>
+<head>
+    <title>login page</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/loginpage.css' %}">
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myInput");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
+
+</head>
+<body style="background-image: url('https://i.ibb.co/jMs1qV5/background.jpg'); background-repeat: no-repeat; background-attachment: fixed; background-size: cover;">
+<div class="loginbox">
+    <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+        <h1 style="color: #006d5b"> Register </h1>
+        {% if message %}
+            <div>
+                {{ message }}
+            </div>
+        {% endif %}
+        <input name="username" placeholder="Create Username" type="text"/>
+        <input name="email" placeholder="Enter email" type="text"/>
+        <input name="password" placeholder="Create Password" type="password"/>
+        <input type="submit" class="btn btn-outline-success" value="Register"/>
+    </form>
+</div>
+</body>
+</html>

@@ -17,3 +17,11 @@ class Meal(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     goal_cals = models.FloatField(blank=True, null=True, default='2000')
+
+
+class Video(models.Model):
+    name = models.CharField(max_length=500)
+    videofile = models.FileField(upload_to='videos/', null=True, verbose_name="")
+
+    def __str__(self):
+        return self.name + ": " + str(self.videofile)

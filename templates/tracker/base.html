@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <link rel="icon" href="../../Tracker/static/image/favicon.ico">
+    <link rel="icon" type="image/png" href="../../Tracker/static/image/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -34,6 +34,8 @@
     <a href="{% url 'search_meal' %}">Search Food</a>
     <a href="{% url 'create_meal' %}">Create New</a>
     <a href="{% url 'goal_change' %}">Change Target</a>
+    <a href="{% url 'upload_workout' %}">Upload Workout</a>
+    <a href="{% url 'all_workout' %}">Display Workout</a>
     {% if user %}
         <a href="{% url 'logout' %}">Logout</a>
     {% endif %}

@@ -13,5 +13,6 @@ urlpatterns = [
     path("goal_change/", views.cal_calc, name="cal_calc"),
     path("search_meal/", views.search_meal, name="search_meal"),
     path('delete/<int:food_id>', views.delete, name='delete'),
-
+    path("upload_workout/", views.showvideo, name="upload_workout"),
+    path('all_workout/', views.display, name='all_workout'),
 ]

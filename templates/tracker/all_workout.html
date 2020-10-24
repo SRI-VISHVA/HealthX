@@ -1,0 +1,13 @@
+{% extends "tracker/../tracker/base.html" %}
+
+{% block body %}
+<div>
+
+    {% for video in videos %}
+        <video height="500" controls>
+            <source src="{{ MEDIA_URL }}{{ video.videofile }}" type="video/mp4">
+        </video>
+        <h1 style="color: lime">{{ video.name }}</h1>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% load static %}
+<html>
+<head>
+    <title>login page</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/loginpage.css' %}">
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myInput");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
+
+</head>
+<body style="background-image: url('https://i.ibb.co/jMs1qV5/background.jpg'); background-repeat: no-repeat; background-attachment: fixed; background-size: cover;">
+<div class="loginbox">
+    <b>
+        {% if message %}
+            <div style="color: black">
+                {{ message }}
+            </div>
+        {% endif %}
+    </b><br><br><br>
+    <span style='font-size:100px; padding-left: 80px'>&#128515;</span><br><br><br>
+    <strong>Log In again</strong><br>
+    <a href="{% url 'login' %}"><input type="submit" class="btn btn-outline-success" value="Login"></a>
+</div>
+</body>
+</html>

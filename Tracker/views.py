@@ -1,6 +1,5 @@
-from django.shortcuts import render, redirect
 from django.urls import reverse
-from .models import Meal, Profile
+from .models import Meal, Profile, Video
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
@@ -8,13 +7,15 @@ from django.db.models import Sum
 import requests
 from django.utils import timezone
 from django.conf import settings
+from django.shortcuts import render, redirect
+from .forms import VideoForm
 
 
 def base(request):
     context = {
         "user": request.user,
     }
-    return render(request, "tracker/../templates/base.html", context)
+    return render(request, "tracker/base.html", context)
 
 
 def index(request):
@@ -108,7 +109,7 @@ def meals(request):
 def delete(request, food_id):
     try:
         user = request.user
-        meal = Meal.objects.filter(userfk=user, date__exact=timezone.datetime.now(),id=food_id)
+        meal = Meal.objects.filter(userfk=user, date__exact=timezone.datetime.now(), id=food_id)
     except Meal.DoesNotExsist:
         return redirect('index')
     else:
@@ -228,3 +229,28 @@ def error(request, msg):
         'msg': msg
     }
     return render(request, 'tracker/error.html', context)
+
+
+def showvideo(request):
+    lastvideo = Video.objects.last()
+
+    videofile = lastvideo.videofile
+
+    form = VideoForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        form.save()
+
+    context = {'videofile': videofile,
+               'form': form
+               }
+
+    return render(request, 'tracker/upload_workout.html', context)
+
+
+def display(request):
+    videos = Video.objects.all()
+    context = {
+        'videos': videos,
+    }
+
+    return render(request, 'tracker/all_workout.html', context)
