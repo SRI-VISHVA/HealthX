@@ -17,4 +17,7 @@ urlpatterns = [
     path('all_workout/', views.display, name='all_workout'),
     path('recipe_upload/', views.recipe_upload, name='recipe_upload'),
     path('display_recipe/', views.recipe_display, name='display_recipe'),
+    # path('chart/', views.chart, name='chart'),
+    path('chart/', views.HomeView.as_view(), name='chart'),
+    path('chart/api/', views.ChartData.as_view())
 ]

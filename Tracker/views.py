@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from rest_framework.views import APIView, View
+from rest_framework.response import Response
 from .models import Meal, Profile, Video, FoodRecipe
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.models import User
 from django.db.models import Sum
 import requests
@@ -10,6 +12,7 @@ from django.utils import timezone
 from django.conf import settings
 from django.shortcuts import render, redirect
 from .forms import VideoForm
+from datetime import timedelta
 
 
 @login_required
@@ -25,7 +28,13 @@ def index(request):
     profile = Profile.objects.get(user=request.user)
     date_now = timezone.now().today()
     kcal = Meal.objects.filter(date=date_now, userfk=request.user).aggregate(Sum('kcal'))['kcal__sum'] or 0.00
-    goal_cals = profile.goal_cals
+    today_date = timezone.localdate()
+    yesterday_date = today_date - timedelta(days=1)
+    yesterday_kcal = Meal.objects.filter(date=yesterday_date, userfk=request.user).aggregate(Sum('kcal'))['kcal__sum'] or 0.00
+    cal_extra = 0.00
+    if yesterday_kcal > profile.goal_cals:
+        cal_extra = yesterday_kcal - profile.goal_cals
+    goal_cals = profile.goal_cals - cal_extra
     if kcal is not None:
         kcal_total = int(kcal)
         kcal_left = goal_cals - kcal_total
@@ -293,16 +302,57 @@ def recipe_upload(request):
 def recipe_display(request):
     if request.method == "POST":
         if request.POST["submit"] == 'Apply Filter':
-            type = request.POST["type"]
-            cuisine = request.POST["cuisine"]
-            recipe = FoodRecipe.objects.filter(type=type, cuisine=cuisine)
+            try:
+                type = request.POST.get("type")
+                cuisine = request.POST.get("cuisine")
+                recipe = FoodRecipe.objects.filter(type=type, cuisine=cuisine)
+                context = {
+                    'food_recipe': recipe,
+                }
+                return render(request, "tracker/food_recipe.html", context)
+            except:
+                recipe = FoodRecipe.objects.all()
+                context = {
+                    'food_recipe': recipe,
+                }
+                return render(request, "tracker/food_recipe.html", context)
+
+        elif request.method == "POST" and request.POST["submit"] == 'Clear Filter':
+            recipe = FoodRecipe.objects.all()
             context = {
                 'food_recipe': recipe,
             }
             return render(request, "tracker/food_recipe.html", context)
-    elif request.method == "GET" or (request.method == "POST" and request.POST["submit"] == 'Clear Filter'):
+    elif request.method == "GET":
         recipe = FoodRecipe.objects.all()
         context = {
             'food_recipe': recipe,
         }
         return render(request, "tracker/food_recipe.html", context)
+
+
+class HomeView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'tracker/chart.html')
+
+
+class ChartData(APIView):
+    def get(self, request):
+        labels = []
+        data = []
+
+        query = Meal.objects.filter(userfk=request.user).values('userfk__meal__date').distinct()
+        for meal_list in query:
+            date = str(meal_list['userfk__meal__date'])
+            labels.append(date)
+
+        for date in labels:
+            queryset = Meal.objects.filter(date=date, userfk=request.user).aggregate(Sum('kcal'))['kcal__sum'] or 0.00
+            data.append(float(queryset))
+
+        data = {
+            'labels': labels,
+            'chartLabel': 'Calorie Chart',
+            'chartdata': data,
+        }
+        return Response(data)

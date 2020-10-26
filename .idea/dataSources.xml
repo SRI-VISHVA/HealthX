@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="db.sqlite3" uuid="a177b343-528b-479e-a57d-985cc4db9840">
-      <driver-ref>sqlite.xerial</driver-ref>
+    <data-source source="LOCAL" name="HealthX@localhost" uuid="38576bf4-50c8-4afe-84b3-28cb3cdc253e">
+      <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db.sqlite3</jdbc-url>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/HealthX</jdbc-url>
     </data-source>
   </component>
 </project>

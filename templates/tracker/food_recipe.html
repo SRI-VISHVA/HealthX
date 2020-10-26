@@ -11,21 +11,21 @@
         <h4>Filters</h4>
         <form action="{% url 'display_recipe' %}" method="post">
             {% csrf_token %}
-            <input name="type" id="vegetarian" value="vegetarian" type="radio" required/>
+            <input name="type" id="vegetarian" value="vegetarian" type="radio">
             <label for="vegetarian">Vegetarian</label>
-            <input name="type" id="non-vegetarian" value="non-vegetarian" type="radio" required/>
+            <input name="type" id="non-vegetarian" value="non-vegetarian" type="radio">
             <label for="non-Vegetarian">Non Vegetarian</label><br>
-            <input name="cuisine" id="south-indian" value="south-indian" type="radio" required/>
+            <input name="cuisine" id="south-indian" value="south-indian" type="radio">
             <label for="south-indian">South Indian</label>
-            <input name="cuisine" id="north-indian" value="north-indian" type="radio" required/>
+            <input name="cuisine" id="north-indian" value="north-indian" type="radio">
             <label for="north-indian">North Indian</label>
-            <input name="cuisine" id="italian" value="italian" type="radio" required/>
+            <input name="cuisine" id="italian" value="italian" type="radio">
             <label for="italian">Italian</label>
-            <input name="cuisine" id="chinese" value="chinese" type="radio" required/>
+            <input name="cuisine" id="chinese" value="chinese" type="radio">
             <label for="chinese">Chinese</label>
-            <input name="cuisine" id="japanese" value="japanese" type="radio" required/>
+            <input name="cuisine" id="japanese" value="japanese" type="radio">
             <label for="japanese">Japanese</label>
-            <input name="cuisine" id="american" value="american" type="radio" required/>
+            <input name="cuisine" id="american" value="american" type="radio">
             <label for="american">American</label><br>
             <input type="submit" name="submit" class="btn btn-outline-success" value="Apply Filter"/>
             <input type="submit" name="submit" class="btn btn-outline-success" value="Clear Filter"/>
